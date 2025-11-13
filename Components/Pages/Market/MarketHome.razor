@@ -2,12 +2,11 @@
 
 <PageTitle>Birthday Market</PageTitle>
 
+@inject NavigationManager Navigation
 
 <div class="container py-4">
-
     <div class="row justify-content-center">
         <div class="col-lg-6 col-md-8 text-center">
-
             <!-- Page Title -->
             <h2 class="fw-bold" style="color:#12807F;">
                 Agency &amp; Unique ID
@@ -22,17 +21,15 @@
             <br><br>
 
             <div class="card">
-
                 <div class="card-body">
-
                     <!-- Market sign in -->
-                    <form class="mt-4 text-start">
+                    <form @onsubmit="HandleSubmit" class="mt-4 text-start">
                         <label class="form-label fw-semibold">Agency *</label>
 
                         <!-- Dropdown options -->
-                        <select class="form-select mb-4">
+                        <select @bind="SelectedAgency" class="form-select mb-4">
                             <option selected disabled>Select an Agency</option>
-                            <option>Demonstration ***</option>
+                            <option>Demonstration</option>
                             <option>Big Brothers Big Sisters</option>
                             <option>i.c.stars</option>
                         </select>
@@ -43,26 +40,48 @@
                         </label>
                         <p class="text-muted" style="font-size: 12px;">(provided to you by your social services agency or school.)</p>
 
-                        <input type="text" class="form-control mb-4" placeholder="Example: RBC08001" id="agencyId" />
+                        <input @bind="UniqueId" type="text" class="form-control mb-4" placeholder="Example: RBC08001" id="agencyId" />
+
+                        <!-- Error Message -->
+                        @if (!string.IsNullOrEmpty(ErrorMessage))
+                        {
+                            <div class="alert alert-danger" role="alert">
+                                @ErrorMessage
+                            </div>
+                        }
 
                         <!-- Continue Button -->
                         <div class="text-center">
-                            <button class="btn px-5 py-2 text-white fw-semibold"
+                            <button type="submit" class="btn px-5 py-2 text-white fw-semibold"
                                 style="background-color:#DB9A2F; border-radius:4px; min-width:200px;">
                                 CONTINUE
                             </button>
                         </div>
-
                     </form>
-
                 </div>
             </div>
-
         </div>
     </div>
-
 </div>
 
 @code {
 
+    private string SelectedAgency { get; set; } = "";
+    private string UniqueId { get; set; } = "";
+    private string ErrorMessage { get; set; } = "";
+
+    private void HandleSubmit()
+    {
+        // Simple validation: Check for demo credentials
+        if (SelectedAgency == "Demonstration" && UniqueId == "demo123")
+        {
+            // Redirect to input form (create this page later)
+            Navigation.NavigateTo("/input-form");
+        }
+        else
+        {
+            Navigation.NavigateTo("/error");
+            ErrorMessage = "Invalid agency or unique ID. Please try again.";
+        }
+    }
 }
