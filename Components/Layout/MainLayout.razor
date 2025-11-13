@@ -1,17 +1,10 @@
 ﻿@inherits LayoutComponentBase
 
-<div class="min-vh-100 bg-light">
-    <HomeNavMenu />
 
-    <main>
-        @Body
-    </main>
+<HomeNavMenu />
 
-</div>
+<main class="min-vh-100 bg-light">
+    @Body
+</main>
 
-
-<div id="blazor-error-ui">
-    An unhandled error has occurred.
-    <a href="" class="reload">Reload</a>
-    <a class="dismiss">🗙</a>
-</div>
+<HomeFooter />
