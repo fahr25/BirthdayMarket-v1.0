@@ -8,7 +8,7 @@
     <div class="row justify-content-center">
         <div class="col-lg-6 col-md-8 text-center">
             <!-- Page Title -->
-            <h2 class="fw-bold" style="color:#12807F;">
+            <h2 class="fw-bold" style="color: #2FA194;">
                 Agency &amp; Unique ID
             </h2>
 
@@ -18,12 +18,9 @@
                 please contact your case manager or school counselor.
             </p>
 
-            <br><br>
 
-            <div class="card">
-                <div class="card-body">
                     <!-- Market sign in -->
-                    <form @onsubmit="HandleSubmit" class="mt-4 text-start">
+                    <form @onsubmit="HandleSubmit" action="birthday-market/input-form" class="mt-4 text-start">
                         <label class="form-label fw-semibold">Agency *</label>
 
                         <!-- Dropdown options -->
@@ -36,9 +33,9 @@
 
                         <!-- Unique ID -->
                         <label for="agencyId" class="form-label fw-semibold">
-                            Unique ID *
+                            Unique ID
                         </label>
-                        <p class="text-muted" style="font-size: 12px;">(provided to you by your social services agency or school.)</p>
+                        <p class="text-muted" style="font-size: 12px;">* (provided to you by your social services agency or school.)</p>
 
                         <input @bind="UniqueId" type="text" class="form-control mb-4" placeholder="Example: RBC08001" id="agencyId" />
 
@@ -58,8 +55,7 @@
                             </button>
                         </div>
                     </form>
-                </div>
-            </div>
+
         </div>
     </div>
 </div>
@@ -76,11 +72,10 @@
         if (SelectedAgency == "Demonstration" && UniqueId == "demo123")
         {
             // Redirect to input form (create this page later)
-            Navigation.NavigateTo("/input-form");
+            Navigation.NavigateTo("/child-input-form");
         }
         else
         {
-            Navigation.NavigateTo("/error");
             ErrorMessage = "Invalid agency or unique ID. Please try again.";
         }
     }

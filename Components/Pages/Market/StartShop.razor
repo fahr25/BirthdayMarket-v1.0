@@ -1,0 +1,19 @@
+@page "/birthday-market/startshop"
+
+@inject NavigationManager Navigation
+
+
+<PageTitle>Start Shopping</PageTitle>
+
+<div class="text-center py-5">
+    <h1>Ready to Shop?</h1>
+    <p>Welcome to the Digital Marketplace where you choose the gifts your child will be excited to receive on their birthday! </p>
+    <p>You have a total of 65 points to shop with. </p>
+    <p>This includes items from the Gifts, Activities, Gift cards, Sweets, Treats, Books, and Birthday Cards.</p>
+    <br /><br />
+    <button class="btn text-white fw-bold w-25" @onclick="StartShopping" style="background-color: #DB9A2F;">START SHOPPING NOW</button>
+</div>
+
+@code {
+    private void StartShopping() => Navigation.NavigateTo("/shop");
+}

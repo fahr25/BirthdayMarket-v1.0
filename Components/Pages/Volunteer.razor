@@ -1,9 +1,183 @@
-﻿@page "/volunteer"
+@page "/volunteer"
 
-<PageTitle>Volunteer</PageTitle>
+@using System.ComponentModel.DataAnnotations
 
-<h3><em>Get Involved</em></h3>
+<PageTitle>Volunteer - Birthday Connections</PageTitle>
+
+
+<!-- Main Content -->
+<div class="container">
+    <!-- Section Header -->
+    <div class="bg-teal text-white text-center py-3 rounded mb-4">
+        <h2 class="mb-0">Contact Us / Volunteer</h2>
+    </div>
+
+    <div class="row g-5">
+        <!-- Left Column: Image + Opportunities -->
+        <div class="col-lg-6">
+            <!-- Volunteer Image -->
+            <div class="text-center mb-4">
+                <img src="https://via.placeholder.com/400x300?text=Volunteers+Holding+Sign" 
+                     alt="Volunteers holding a sign" 
+                     class="img-fluid rounded shadow" />
+            </div>
+
+            <!-- Volunteer Opportunities -->
+            <h4 class="fw-bold">Volunteer Opportunities</h4>
+            <h5 class="text-success">Pick-up and Delivery volunteers</h5>
+            <ul class="list-unstyled">
+                <li class="mb-2">• Sign up to deliver Birthday Packages to partner agencies using <strong>Sign Up Genius</strong>.</li>
+                <li class="mb-2">• Individuals or a team!</li>
+                <li class="mb-2">• Must be able to drive and have reliable transportation.</li>
+                <li class="mb-2">• No training is required.</li>
+                <li class="mb-2">• Volunteers choose how frequent to volunteer and dates that work for them.</li>
+            </ul>
+
+            <div class="text-center mt-4">
+                <a href="#full-list" class="btn btn-danger rounded-pill px-4">VOLUNTEER OPPORTUNITIES</a>
+            </div>
+        </div>
+
+        <!-- Right Column: Volunteer Interest Form -->
+        <div class="col-lg-6">
+            <div class="border rounded p-4 bg-light shadow-sm">
+                <h4 class="fw-bold text-primary mb-3">Volunteer Interest form</h4>
+                <p class="text-muted small">
+                    Please complete the form if you are interested in volunteering. We'll be in touch as soon as possible!
+                </p>
+
+                <EditForm Model="@volunteerModel" OnValidSubmit="HandleValidSubmit">
+                    <DataAnnotationsValidator />
+                    <ValidationSummary class="text-danger" />
+
+                    <div class="row mb-3">
+                        <div class="col-sm-6">
+                            <div class="form-floating">
+                                <InputText @bind-Value="volunteerModel.FirstName" class="form-control" id="firstName" placeholder="First Name" />
+                                <label for="firstName">First Name</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-floating">
+                                <InputText @bind-Value="volunteerModel.LastName" class="form-control" id="lastName" placeholder="Last Name" />
+                                <label for="lastName">Last Name</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <InputText type="email" @bind-Value="volunteerModel.Email" class="form-control" id="email" placeholder="name@example.com" />
+                        <label for="email">Email <span class="text-danger">*</span></label>
+                        <ValidationMessage For="@(() => volunteerModel.Email)" class="text-danger small" />
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <InputTextArea @bind-Value="volunteerModel.Interests" class="form-control" id="interests" placeholder="Tell us what roles interest you" style="height: 100px;" />
+                        <label for="interests">Please tell us what volunteer roles interest you.</label>
+                    </div>
+
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-warning rounded-pill px-5">Submit</button>
+                    </div>
+                </EditForm>
+                
+            </div>
+        </div>
+    </div>
+
+    <!-- Full List Placeholder (for future expansion) -->
+    @* <div id="full-list" class="mt-5">
+        <h3 class="text-center text-primary mb-4">Full List of Volunteer Opportunities</h3>
+        <div class="row g-4">
+            @foreach (var opp in VolunteerOpportunities)
+            {
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title text-success">@opp.Title</h5>
+                            <p class="card-text">@opp.Description</p>
+                            <ul class="list-unstyled text-muted small">
+                                @foreach (var req in opp.Requirements)
+                                {
+                                    <li>• @req</li>
+                                }
+                            </ul>
+                        </div>
+                        <div class="card-footer bg-transparent">
+                            <a href="@opp.SignUpLink" class="btn btn-outline-primary btn-sm">Sign Up</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div> *@
+
+</div>
+
+
 
 @code {
+    private VolunteerModel volunteerModel = new();
 
+    private List<VolunteerOpportunity> VolunteerOpportunities = new()
+    {
+        new VolunteerOpportunity
+        {
+            Title = "Pick-up and Delivery Volunteer",
+            Description = "Deliver birthday packages to partner agencies on your schedule.",
+            Requirements = new[] { "Valid driver's license", "Reliable vehicle", "Flexible availability" },
+            SignUpLink = "https://signupgenius.com/example"
+        },
+        new VolunteerOpportunity
+        {
+            Title = "Event Support Volunteer",
+            Description = "Help set up and run birthday celebration events.",
+            Requirements = new[] { "Available on weekends", "Team player", "No experience needed" },
+            SignUpLink = "https://signupgenius.com/events"
+        },
+        new VolunteerOpportunity
+        {
+            Title = "Package Assembly Team",
+            Description = "Assist in preparing birthday kits at our warehouse.",
+            Requirements = new[] { "Able to lift 20 lbs", "Attention to detail", "Group or individual" },
+            SignUpLink = "https://signupgenius.com/assembly"
+        }
+    };
+
+    private void HandleValidSubmit()
+    {
+        // In a real app, send to API or email service
+        Console.WriteLine($"Volunteer submitted: {volunteerModel.FirstName} {volunteerModel.LastName}, {volunteerModel.Email}");
+        // Reset form or show success
+        volunteerModel = new();
+    }
+
+    public class VolunteerModel
+    {
+        public string FirstName { get; set; } = "";
+        public string LastName { get; set; } = "";
+
+        [Required(ErrorMessage = "Email is required")]
+        [EmailAddress(ErrorMessage = "Invalid email address")]
+        public string Email { get; set; } = "";
+
+        public string Interests { get; set; } = "";
+    }
+
+    public class VolunteerOpportunity
+    {
+        public string Title { get; set; } = "";
+        public string Description { get; set; } = "";
+        public string[] Requirements { get; set; } = Array.Empty<string>();
+        public string SignUpLink { get; set; } = "#";
+    }
 }
+
+<style>
+    .bg-teal {
+        background-color: #17a2b8 !important;
+    }
+    .text-teal {
+        color: #17a2b8 !important;
+    }
+</style>
