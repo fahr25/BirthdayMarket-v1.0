@@ -2,20 +2,81 @@
 
 <PageTitle>Birthday Market</PageTitle>
 
-<div class="container py-4">
-    <h1>BirthdayMarket</h1>
+@inject NavigationManager Navigation
 
-    <p>
-        At BirthdayMarket, we believe that every birthday is a unique celebration. That's why we offer a diverse selection of birthday supplies, decorations, gifts, and party planning services to cater to your individual needs and preferences.
-    </p>
-    <p>
-        Our mission is to make birthday celebrations easy and enjoyable for everyone. Whether you're planning a small gathering or a grand event, our team is here to help you every step of the way.
-    </p>
-    <p>
-        Thank you for choosing BirthdayMarket. We look forward to helping you create memorable birthday experiences!
-    </p>
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-8 text-center">
+            <!-- Page Title -->
+            <h2 class="fw-bold" style="color: #2FA194;">
+                Agency &amp; Unique ID
+            </h2>
+
+            <!-- Subtitle -->
+            <p class="mt-3" style="color:#555; font-size:1rem;">
+                If you would like to shop at no cost for birthday gifts for your children,
+                please contact your case manager or school counselor.
+            </p>
+
+
+                    <!-- Market sign in -->
+                    <form @onsubmit="HandleSubmit" action="birthday-market/input-form" class="mt-4 text-start">
+                        <label class="form-label fw-semibold">Agency *</label>
+
+                        <!-- Dropdown options -->
+                        <select @bind="SelectedAgency" class="form-select mb-4">
+                            <option selected disabled>Select an Agency</option>
+                            <option>Demonstration</option>
+                            <option>Big Brothers Big Sisters</option>
+                            <option>i.c.stars</option>
+                        </select>
+
+                        <!-- Unique ID -->
+                        <label for="agencyId" class="form-label fw-semibold">
+                            Unique ID
+                        </label>
+                        <p class="text-muted" style="font-size: 12px;">* (provided to you by your social services agency or school.)</p>
+
+                        <input @bind="UniqueId" type="text" class="form-control mb-4" placeholder="Example: RBC08001" id="agencyId" />
+
+                        <!-- Error Message -->
+                        @if (!string.IsNullOrEmpty(ErrorMessage))
+                        {
+                            <div class="alert alert-danger" role="alert">
+                                @ErrorMessage
+                            </div>
+                        }
+
+                        <!-- Continue Button -->
+                        <div class="text-center">
+                            <button type="submit" class="btn px-5 py-2 text-white fw-semibold"
+                                style="background-color:#DB9A2F; border-radius:4px; min-width:200px;">
+                                CONTINUE
+                            </button>
+                        </div>
+                    </form>
+
+        </div>
+    </div>
 </div>
 
 @code {
 
+    private string SelectedAgency { get; set; } = "";
+    private string UniqueId { get; set; } = "";
+    private string ErrorMessage { get; set; } = "";
+
+    private void HandleSubmit()
+    {
+        // Simple validation: Check for demo credentials
+        if (SelectedAgency == "Demonstration" && UniqueId == "demo123")
+        {
+            // Redirect to input form (create this page later)
+            Navigation.NavigateTo("/child-input-form");
+        }
+        else
+        {
+            ErrorMessage = "Invalid agency or unique ID. Please try again.";
+        }
+    }
 }
